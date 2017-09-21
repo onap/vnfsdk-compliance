@@ -1,0 +1,109 @@
+ #
+ # ============LICENSE_START==========================================
+ # ===================================================================
+ # Copyright © 2017 AT&T Intellectual Property. All rights reserved.
+ # ===================================================================
+ # Licensed under the Apache License, Version 2.0 (the "License");
+ # you may not use this file except in compliance with the License.
+ # You may obtain a copy of the License at
+ #
+ #        http://www.apache.org/licenses/LICENSE-2.0
+ #
+ # Unless required by applicable law or agreed to in writing, software
+ # distributed under the License is distributed on an "AS IS" BASIS,
+ # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+ # ============LICENSE_END============================================
+ #
+ # ECOMP and OpenECOMP are trademarks
+ # and service marks of AT&T Intellectual Property.
+ #
+ # 
+
+For support queries reach out to Gokul Singaraju gs244f@att.com
+
+VES Library is opensourced library provided for Virtual Event Streaming Agent
+development.
+
+The VES Library provides standard API for Data collector agents
+to interface with DCAE. This VES Library supports 5.x version of API.
+   The Vendor related documentation is provided in
+         https://github.com/att/evel-test-collector/tree/master/docs/att_interface_definition
+   VES preliminary documentation is under
+         https://wiki.opnfv.org/display/ves/VES+Home
+
+
+To compile C Library
+   C compiler would be needed for Linux and Windows.
+
+  Ubuntu platform dependencies are
+              sudo apt-get install update
+              sudo apt-get install upgrade
+              sudo apt-get install build-essential
+  For Redhat/CentOS it would be
+              sudo yum groupinstall "Development Tools"
+
+  Compile:
+              cd veslibrary/ves_clibrary/evel/evel-library/bldjobs;make clean;make all
+  Install VES Library:
+              cd veslibrary/ves_clibrary/evel/evel-library/bldjobs;make install
+
+For Running the VES Agent
+      pthread, curl and libcurl3 packages will neeed to be installed
+    Sample agents Firewall (vFW) and Loadbalancer (vLB) are provided as development examples
+    Modify per your agent requirements
+     Reporting DCAE/VES collector ip and port also need to be setup
+
+
+To compile Java library
+
+  On Windows
+   Load the Maven project into Eclipse
+    Select evel_javalib2 project Right click
+      Select Maven > Download Sources 
+      Select Maven > Update Project
+   then
+    Select pom.xml Right click > Run As > Maven Clean
+    Select pom.xml Right click > Run As > Maven Build
+   to compile and build the jar
+
+  On Ubuntu platform dependencies are
+   sudo apt-get install openjdk-8-jre
+   sudo apt-get install openjdk-8-jdk
+
+  Maven build utility
+   sudo apt-get install mvn
+
+  On Redhat/Centos
+   sudo yum install java-1.8.0-openjdk
+   sudo yum install java-1.8.0-openjdk-devel
+
+  Maven
+   sudo yum install maven2
+
+  Compile library:
+   cd  veslibrary/ves_javalibrary/evel_javalib2;mvn clean install
+
+
+  Copy the evel_javalib2-0.0.1-SNAPSHOT.jar into directory
+
+  Dependent classpath jars that are needed to compile and Run
+   log4j-1.2.17.jar
+   javax.json-api-1.1.jar
+   slf4j-api-1.7.5.jar
+   slf4j-log4j12-1.7.5.jar
+   javax.json-1.0.4.jar
+
+  Sample Agent application is at src_test/maindir/Main.java
+     mkdir ./evel_javalibrary/att/com/maindir
+     copy the agent code into this directory and modify per your agent requirements
+     Reporting DCAE/VES collector ip and port also need to be setup
+
+
+  Compile Sample VES agent
+   javac -cp <.:dependent jars> ./evel_javalibrary/att/com/maindir
+  Run VES agent
+   java -cp <.:dependent jars> evel_javalibrary.att.com.maindir.Main
+
+
