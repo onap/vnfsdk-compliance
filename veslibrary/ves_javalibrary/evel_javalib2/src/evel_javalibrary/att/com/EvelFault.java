@@ -129,7 +129,7 @@ public class EvelFault extends EvelHeader {
 	   *****************************************************************************/
 	public EvelFault(String evname, String ev_id,
 			         String condition, String specproblem,
-                     EvelHeader.PRIORITIES priority,
+                     EvelHeader.PRIORITIES tpriority,
                      EVEL_SEVERITIES severity,
                      EVEL_SOURCE_TYPES ev_source_type,
                      EVEL_VF_STATUSES status)
@@ -140,7 +140,7 @@ public class EvelFault extends EvelHeader {
 		//Validate inputs
 		assert( condition != null);
 		assert( specific_problem != null);
-		assert(EvelHeader.PRIORITIES.EVEL_MAX_PRIORITIES.compareTo(priority) < 0 );
+		assert(EvelHeader.PRIORITIES.EVEL_MAX_PRIORITIES.compareTo(tpriority) < 0 );
 		assert(EVEL_SEVERITIES.EVEL_MAX_SEVERITIES.compareTo(severity) < 0 );
 		assert(EVEL_VF_STATUSES.EVEL_MAX_VF_STATUSES.compareTo(status) < 0 );
 		//Init mandatory fields
@@ -149,6 +149,7 @@ public class EvelFault extends EvelHeader {
 		alarm_condition = condition;
 		specific_problem = specproblem;
 		vf_status = status;
+		priority = tpriority;
 		//Init optional fields
 		category = new EvelOptionString(false, null);
 		alarm_interface_a = new EvelOptionString(false, null);

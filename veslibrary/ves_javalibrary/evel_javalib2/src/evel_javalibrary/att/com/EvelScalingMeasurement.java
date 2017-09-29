@@ -1946,7 +1946,7 @@ public class EvelScalingMeasurement extends EvelHeader {
 	      for(int i=0;i<additional_measurements.size();i++)
 	      {
 	    	  item = additional_measurements.get(i);
-	    	  if( item.name.equals(name))
+	    	  if( item.name.equals(group))
 	    	  {
 	    		  LOGGER.debug("Found existing Measurement Group");
 	    		  measurement_group = item;
@@ -1965,7 +1965,9 @@ public class EvelScalingMeasurement extends EvelHeader {
 	      assert(measurement_group != null);
 	      measurement_group.name = group;
 	      assert(measurement_group.name != null);
+	      measurement_group.measurements = new ArrayList<CUSTOM_MEASUREMENT>();
 	      if( additional_measurements == null){
+	    	  LOGGER.debug("Creating new Measurement Group list"+group);
 	    	  additional_measurements = new ArrayList<MEASUREMENT_GROUP>();
 	    	  if( additional_measurements == null ){
 	    		  LOGGER.error("Unable to allocate additional measurements ");
@@ -1977,6 +1979,7 @@ public class EvelScalingMeasurement extends EvelHeader {
 	    /***************************************************************************/
 	    /* If we didn't have the group already, create it.                         */
 	    /***************************************************************************/
+	    LOGGER.debug("Adding custom measurement");
 	    measurement_group.measurements.add(custom_measurement);
 
 	    EVEL_EXIT();
@@ -3620,7 +3623,7 @@ public class EvelScalingMeasurement extends EvelHeader {
 						                    .add("value",custom_meas.value);
 				  builder2.add(obj2.build());	  
 			  }
-			  obj.add("measurements", builder2);
+			  obj.add("arrayOfFields", builder2);
 			  builder.add(obj.build());
 		    }
 			evelmeasmt.add("additionalMeasurements", builder);

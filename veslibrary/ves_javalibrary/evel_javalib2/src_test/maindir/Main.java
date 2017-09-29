@@ -57,6 +57,7 @@ public class Main
 
         AgentMain.evel_initialize("http://127.0.0.1", 30000,
                               "/vendor_event_listener","/example_vnf",
+                              //null,null
                 "pill",
                 "will",
                 Level.DEBUG);
@@ -106,7 +107,10 @@ public class Main
               MEASUREMENT_CPU_USE my2 = sm.evel_measurement_new_cpu_use_add("cpu2", 10.0);
               my2.steal.SetValue(34.0);
               my2.user.SetValue(32.0);
-
+              sm.evel_measurement_custom_measurement_add("group1","name1","val1");
+              sm.evel_measurement_custom_measurement_add("group1","name2","val2");
+              sm.evel_measurement_custom_measurement_add("group2","name1","val1");
+              sm.evel_measurement_custom_measurement_add("group2","name2","val2");
 
               MEASUREMENT_VNIC_PERFORMANCE vnic_p = sm.evel_measurement_new_vnic_performance("vnic1","true");
               vnic_p.recvd_bcast_packets_acc.SetValue(2400000.0);

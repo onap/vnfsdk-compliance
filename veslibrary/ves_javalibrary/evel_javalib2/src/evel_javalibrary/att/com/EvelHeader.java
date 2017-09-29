@@ -472,6 +472,65 @@ public class EvelHeader {
 	  }
 	  
 	  /**************************************************************************//**
+	   * Set the Priority property of the event header.
+	   *
+	   * @note The Priority of event being reported.
+	   *
+	   * @param priorityval    Value of priority.
+	   * 
+	   *****************************************************************************/
+	  public void evel_header_set_priority(PRIORITIES priority_val)
+	  {
+	    EVEL_ENTER();
+	    
+	    assert(EvelHeader.PRIORITIES.EVEL_MAX_PRIORITIES.compareTo(priority_val) < 0 );
+	    
+	    priority = priority_val;
+
+	    EVEL_EXIT();
+	  }
+	  
+	  /**************************************************************************//**
+	   * Set the Priority property of the event header.
+	   *
+	   * @note The Reporting Entity Id defaults to the OpenStack VM UUID.
+	   *
+	   * @param val       Optional true or false.
+	   * @param srcid     The source id to set.
+	   *****************************************************************************/
+	  public void evel_header_set_sourceid(boolean val, String srcid)
+	  {
+	    EVEL_ENTER();
+	    
+	    assert(srcid != null);
+	    
+	    source_id.set_option(val);
+	    
+	    source_id.SetValue(srcid);
+
+	    EVEL_EXIT();
+	  }
+	  
+	  /**************************************************************************//**
+	   * Set the Source name property of the event header.
+	   *
+	   * @note Source name should identify the IP address or Source Event originator
+	   *       for inventory
+	   *
+	   * @param srcname  String for sourcename.
+	   *****************************************************************************/
+	  public void evel_header_set_source_name(String srcname)
+	  {
+	    EVEL_ENTER();
+	    
+	    assert(srcname != null);
+	    
+	    source_name = srcname;
+
+	    EVEL_EXIT();
+	  }
+	  
+	  /**************************************************************************//**
 	   * Map an ::EVEL_EVENT_DOMAINS enum value to the equivalent string.
 	   *
 	   * @param domain        The domain to convert.
