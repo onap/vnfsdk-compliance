@@ -89,7 +89,22 @@ public enum EVEL_ERR_CODES {
 	/* AgentDispatcher loops on messages in RingBuffer and POSTs them
 	 * to external Collector
 	 */
-    private static class AgentDispatcher  implements Runnable {
+ private static class AgentDispatcher  implements Runnable {
+    	
+    	private String readStream(InputStream stream) throws Exception {
+    	    StringBuilder builder = new StringBuilder();
+    	    try (BufferedReader in = new BufferedReader(new InputStreamReader(stream))) {
+    	        String line;
+    	        while ((line = in.readLine()) != null) {
+    	            builder.append(line); // + "\r\n"(no need, json has no line breaks!)
+    	        }
+    	        in.close();
+    	    }
+    	    logger.error("Resp: " + builder.toString());
+    	    System.out.println("Resp: " + builder.toString());
+    	    return builder.toString();
+    	}
+    	
       public void run() {
  
       String datatosend=null;  
@@ -122,7 +137,7 @@ public enum EVEL_ERR_CODES {
     	  	    // No caching, we want the real thing.
     	  	    con.setUseCaches (false);
     	  	    // Specify the content type.
-    	  	    con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+    	  	    con.setRequestProperty("Content-Type", "application/json");
     	  	    //con.setChunkedStreamingMode(0);
     	  	    con.setInstanceFollowRedirects( false );
     	  	    //Basic username password authentication
@@ -163,24 +178,17 @@ public enum EVEL_ERR_CODES {
 			    	logger.warn(url + " **SERVER ERROR**");
 
                     InputStream es = con.getErrorStream();
-                    if( es != null)
-                    {
-                      int ret = 0;
-                      byte[] buf = null;
-				      // read the response body
-                      while ((ret = es.read(buf)) > 0) {
-                        logger.info("Resp:"+buf);
-                      }
-                      // close the errorstream
-                      es.close();
-                    }
+                    readStream(es);
 			    }
     	        
 				
 			  } catch (IOException e) {
 				  // TODO Auto-generated catch block
 				  e.printStackTrace();
-			  }
+			  } catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
     		  
     	  }
     	  else
