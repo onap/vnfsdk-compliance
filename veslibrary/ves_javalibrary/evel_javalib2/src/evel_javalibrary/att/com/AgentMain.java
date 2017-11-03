@@ -27,7 +27,7 @@ package evel_javalibrary.att.com;
 import org.apache.log4j.Logger;
 import org.apache.log4j.Level;
 
-//import java.io.BufferedReader;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 //import java.io.DataOutputStream;
 import java.io.IOException;
