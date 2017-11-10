@@ -1,10 +1,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>evel_javalib2</groupId>
+  <groupId>org.onap.vnfsdk.compliance</groupId>
   <artifactId>evel_javalib2</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>VESJavaLibrary</name>
   
+        <properties>
+ <!-- If the maven profile "docker" is specified the parameter -Dves.git.url=<MsoGitRepo> must be provided
+                     i.e: mvn clean install -P docker -Dves.git.url=https://gerrit.onap.org/r-->
+                <ves.git.url>${env.GIT_NO_PROJECT}</ves.git.url>
+               <ves.project.version>${project.version}</ves.project.version>
+        </properties>
 
     <repositories>
         <repository>
@@ -18,14 +24,35 @@
   <build>
     <sourceDirectory>src</sourceDirectory>
     <plugins>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.5.1</version>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-        </configuration>
-      </plugin>
+             <plugin>
+                <groupId>org.codehaus.groovy.maven</groupId>
+                <artifactId>gmaven-plugin</artifactId>
+                <executions>
+                  <execution>
+                    <phase>validate</phase>
+                    <goals>
+                      <goal>execute</goal>
+                    </goals>
+                    <configuration>
+                      <source>
+                        println project.properties['ves.project.version'];
+                        def versionArray;
+                        if ( project.properties['ves.project.version'] != null ) {
+                            versionArray = project.properties['ves.project.version'].split('\\.');
+                        } 
+
+                        if ( project.properties['ves.project.version'].endsWith("-SNAPSHOT") ) {
+                            project.properties['project.docker.latesttag.version']=versionArray[0] + '.' + versionArray[1] + "-SNAPSHOT-latest";
+                        } else {
+                            project.properties['project.docker.latesttag.version']=versionArray[0] + '.' + versionArray[1] + "-STAGING-latest";
+                        }
+
+                        println 'New Tag for docker:' + project.properties['project.docker.latesttag.version'];
+                      </source>
+                    </configuration>
+                  </execution>
+              </executions>
+            </plugin>
       
       <plugin>
                 <groupId>org.eclipse.m2e</groupId>
